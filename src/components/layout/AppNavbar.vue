@@ -11,6 +11,7 @@
         <li><router-link to="/ph-measurement" class="text-white">pH Mérés</router-link></li>
         <li><router-link to="/newmeters" class="text-white">Új Mérés</router-link></li> 
         <li><router-link to="/meters" class="text-white">Mérések</router-link></li>
+        <li><router-link to="/evaluation" class="text-white">Értékelések</router-link></li> 
         <li><router-link to="/testpredict" class="text-white">AI Teszt</router-link></li> 
         <li><router-link to="/test" class="text-white">Conn test</router-link></li> 
       </ul>
@@ -28,10 +29,10 @@
       <ul class="flex flex-col space-y-2 p-4">
         <li><router-link to="/" class="text-white">Főoldal</router-link></li>
         <li><router-link to="/ph-measurement" class="text-white">pH Mérés</router-link></li>
-        <li><router-link to="/about" class="text-white">Teszt</router-link></li>
+        <li><router-link to="/test" class="text-white">Conn test</router-link></li> 
         <li><router-link to="/meters" class="text-white">Mérések</router-link></li>
         <li><router-link to="/newmeters" class="text-white">Új Mérés</router-link></li> 
-        <li><router-link to="/testpredict" class="text-white">AI Teszt</router-link></li> <!-- Új útvonal -->
+        <li><router-link to="/testpredict" class="text-white">AI Teszt</router-link></li> 
       </ul>
     </div>
   </nav>

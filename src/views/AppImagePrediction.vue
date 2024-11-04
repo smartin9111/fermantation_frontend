@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
+import apiClient from '../api'; // Helyes import
 
 const selectedFile = ref(null);  
 const prediction = ref(null);    
@@ -46,7 +46,7 @@ const uploadImage = async () => {
   formData.append('file', selectedFile.value);
 
   try {
-    const response = await axios.post('http://localhost:8000/api/predict/', formData, {
+    const response = await apiClient.post('/predict-image/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

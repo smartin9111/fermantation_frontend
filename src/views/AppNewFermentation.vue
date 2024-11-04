@@ -19,6 +19,10 @@
     <label for="brix" class="block text-lg font-medium text-gray-700 mt-4 mb-2">Brix érték:</label>
     <input v-model="brix" id="brix" type="number" placeholder="Brix érték megadása" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
 
+    <!-- Induló súly megadása -->
+    <label for="initialWeight" class="block text-lg font-medium text-gray-700 mt-4 mb-2">Induló súly (kg):</label>
+    <input v-model="initialWeight" id="initialWeight" type="number" placeholder="Induló súly megadása" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+
     <!-- Start és Stop gombok -->
     <div class="flex justify-center space-x-6 mt-6">
       <AppButton @click="startMeasurement" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105">Start</AppButton>
@@ -38,6 +42,7 @@ export default {
     return {
       selectedFruit: '',
       brix: null,
+      initialWeight: null, // Új adatmező az induló súlyhoz
       activeMeasurementId: null,
       error: null,
       success: null
@@ -48,25 +53,22 @@ export default {
       this.error = null;
       this.success = null;
 
-      if (!this.selectedFruit || !this.brix) {
+      if (!this.selectedFruit || !this.brix || !this.initialWeight) {
         this.error = 'Kérlek, töltsd ki az összes mezőt!';
         return;
       }
 
       try {
-        const response = await apiClient.post('/start-measurement/', {
+        await apiClient.post('/start-measurement/', {
           name: this.selectedFruit,
           brix: this.brix,
+          initial_weight: this.initialWeight, // Induló súly hozzáadása
           year: new Date().getFullYear()
         });
 
-        this.activeMeasurementId = response.data.id;
         this.success = 'A mérés sikeresen elindult!';
-        console.log(response.data);
-
       } catch (error) {
         this.error = 'Hiba történt a mérés indítása során.';
-        console.error(error);
       }
     },
 
@@ -77,16 +79,17 @@ export default {
       }
 
       try {
-        const response = await apiClient.post(`/stop-measurement/${this.activeMeasurementId}/`);
+        await apiClient.post(`/stop-measurement/${this.activeMeasurementId}/`);
         this.success = 'A mérés sikeresen leállt!';
         this.activeMeasurementId = null;
-        console.log(response.data);
-
       } catch (error) {
         this.error = 'Hiba történt a mérés leállítása során.';
-        console.error(error);
       }
     }
   }
 };
 </script>
+
+<style scoped>
+/* Ha szükséges, adhatsz hozzá további stílusokat */
+</style>

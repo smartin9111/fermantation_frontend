@@ -18,27 +18,6 @@ export default {
       default: false
     }
   },
-  emits: ['click'],
-  data() {
-    return {
-      internalLoading: false
-    };
-  },
-  computed: {
-    isLoading() {
-      return this.loading || this.internalLoading;
-    }
-  },
-  methods: {
-    async handleClick() {
-      if (this.isLoading) return;
-
-      this.internalLoading = true;
-      this.$emit('click', this.resetLoading);
-    },
-    resetLoading() {
-      this.internalLoading = false;
-    }
-  }
+ 
 };
 </script>

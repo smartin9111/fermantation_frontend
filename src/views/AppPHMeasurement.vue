@@ -17,15 +17,13 @@
         </option>
       </select>
 
-      <!-- Start, Save, and Stop Buttons for pH Measurement -->
-      <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mt-6">
-        <AppButton @click="startPHMeasurement" class="bg-green-500 hover:bg-green-600">Start pH Mérés</AppButton>
-        <AppButton @click="getPHValue" class="bg-blue-500 hover:bg-blue-600" :disabled="!phMeasurementActive">pH Érték Lekérése</AppButton>
-        <AppButton @click="savePHMeasurement" class="bg-blue-500 hover:bg-blue-600" :disabled="!phValue">pH Érték Mentése</AppButton>
-        <AppButton @click="stopPHMeasurement" class="bg-red-500 hover:bg-red-600" :disabled="!phMeasurementActive">Stop pH Mérés</AppButton>
-      </div>
+	<div class="flex flex-col space-y-4 mt-6">
+		<AppButton @click="startPHMeasurement" class="bg-green-500 hover:bg-green-600">Start pH Mérés</AppButton>
+		<AppButton @click="getPHValue" class="bg-blue-500 hover:bg-blue-600" :disabled="!phMeasurementActive">pH Érték Lekérése</AppButton>
+		<AppButton @click="savePHMeasurement" class="bg-blue-500 hover:bg-blue-600" :disabled="!phValue">pH Érték Mentése</AppButton>
+		<AppButton @click="stopPHMeasurement" class="bg-red-500 hover:bg-red-600" :disabled="!phMeasurementActive">Stop pH Mérés</AppButton>
+	</div>
 
-      <!-- Display current pH value -->
       <div v-if="phValue" class="mt-4 text-lg text-center font-semibold text-gray-700">
         Jelenlegi pH érték: <span class="text-blue-600">{{ phValue.toFixed(2) }}</span>
       </div>
