@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import apiClient from '../api'; // Helyes import
+import apiClient from '../api'; 
 
 const selectedFile = ref(null);  
 const prediction = ref(null);    

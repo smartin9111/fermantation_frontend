@@ -9,7 +9,7 @@
       <p><strong>ID:</strong> {{ measurement.id }}</p>
       <p><strong>Név:</strong> {{ measurement.name }}</p>
       <p><strong>Státusz:</strong> {{ measurement.status }}</p>
-      <p><strong>Tömeg (Brix):</strong> {{ measurement.brix }}</p>
+      <p><strong>Kezdeti Brix:</strong> {{ measurement.initial_brix }}</p>
       <p><strong>Kezdeti súly(kg):</strong> {{ measurement.initial_weight }}</p>
       <p><strong>Kezdés dátuma:</strong> {{ measurement.created_at }}</p>
       <p><strong>Zárás dátuma:</strong> {{ measurement.stopped_at || 'N/A' }}</p>
@@ -43,6 +43,17 @@
         <p><strong>90. Percentilis:</strong> {{ phStatistics.percentiles['90th'].toFixed(2) }}</p>
       </div>
 
+      <!-- Bric statisztikai adatok -->
+      <h2 class="text-2xl font-semibold mt-6">Brix Statisztikai Adatok</h2>
+      <div v-if="brixStatistics">
+        <p><strong>Átlag:</strong> {{ brixStatistics.average.toFixed(2) }}</p>
+        <p><strong>Medián:</strong> {{ brixStatistics.median.toFixed(2) }}</p>
+        <p><strong>Módusz:</strong> {{ brixStatistics.mode.toFixed(2) }}</p>
+        <p><strong>25. Percentilis:</strong> {{ brixStatistics.percentiles['25th'].toFixed(2) }}</p>
+        <p><strong>75. Percentilis:</strong> {{ brixStatistics.percentiles['75th'].toFixed(2) }}</p>
+        <p><strong>90. Percentilis:</strong> {{ brixStatistics.percentiles['90th'].toFixed(2) }}</p>
+      </div>
+
       <!-- Hőmérséklet diagram -->
       <h2 class="text-2xl font-semibold mt-6">Hőmérséklet Adatok</h2>
       <AppChart v-if="temperatureChartData" :chartData="temperatureChartData" />
@@ -50,6 +61,10 @@
       <!-- pH diagram -->
       <h2 class="text-2xl font-semibold mt-6">pH Adatok</h2>
       <AppChart v-if="phChartData" :chartData="phChartData" />
+
+      <!-- Brix diagram -->
+      <h2 class="text-2xl font-semibold mt-6">Brix Adatok</h2>
+      <AppChart v-if="brixChartData" :chartData="brixChartData" />
     </div>
   </div>
 </template>
@@ -70,8 +85,10 @@ export default {
       error: null,
       temperatureChartData: null,
       phChartData: null,
+      brixChartData: null,
       temperatureStatistics: null,
-      phStatistics: null
+      phStatistics: null,
+      brixStatistics: null,
     };
   },
   methods: {
@@ -109,7 +126,7 @@ export default {
             }
           ]
         };
-
+		// ph lekérdezés
         const phResponse = await apiClient.get(`/measurements/${this.$route.params.id}/ph-values`);
         if (phResponse.status === 204) {
           this.error = 'Jelenleg nincs még pH adat';
@@ -137,13 +154,41 @@ export default {
                 fill: false
               }
             ]
-          };
-        }
+          };				
+		// Brix adatok lekérése
+		const brixResponse = await apiClient.get(`/measurements/${this.$route.params.id}/brix-values`);
+		if (brixResponse.status === 204) {
+			this.error = 'Jelenleg nincs még Brix adat';
+		} else {
+		const brixData = brixResponse.data;
+		this.brixStatistics = brixData.statistics;
+		this.brixChartData = {
+			labels: brixData.brix_data.map(entry => {
+			const date = new Date(entry.measured_at);
+			return date.toLocaleString('hu-HU', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+				hour: '2-digit',
+				minute: '2-digit'
+			});
+			}),
+			datasets: [{
+			label: 'Brix érték',
+			backgroundColor: 'rgba(255, 159, 64, 0.2)',
+			borderColor: 'rgba(255, 159, 64, 1)',
+			data: brixData.brix_data.map(entry => entry.brix_value),
+			borderWidth: 2,
+			fill: false
+			}]
+		};
+		}
+	}
       } catch (error) {
-        if (error.response && error.response.status === 204) {
-          this.error = 'Az adott fermentációhoz még nem rögzítettek pH-mérést.';
+        if (error.response) {
+          this.error = error.response.data.error || 'Hiba történt a mért adatok kiolvasása során.';
         } else {
-          this.error = 'Hiba történt az adat betöltése közben.';
+          this.error = 'Hiba történt az adatok lekérése közben.';
         }
       } finally {
         this.loading = false;

@@ -6,7 +6,7 @@ import AppTestConnect from '../views/AppTestConnect.vue';
 import AppMeasurementDetail from '../views/AppMeasurementDetail.vue';
 import AppPHMeasurement from '../views/AppPHMeasurement.vue'
 import AppEvaluation from '../views/AppEvaluation.vue'
-
+import AppBrixMeasurement from '../views/AppBrixMeasurement.vue';
 
 const routes = [
   {
@@ -47,6 +47,11 @@ const routes = [
     path: '/evaluation',
     name: 'AppEvaluation',
     component: AppEvaluation
+  },
+  {
+    path: '/brix',
+    name: 'AppBrixMeasurement',
+    component: AppBrixMeasurement  
   }
 ];
 

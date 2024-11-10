@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     handleButtonClick() {
-      this.clickCount++; // Kattintásszámláló növelése
+      this.clickCount++; 
       this.testConnection();
     },
     async testConnection() {

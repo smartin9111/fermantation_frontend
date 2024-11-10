@@ -13,7 +13,7 @@
             <th class="py-2 px-4 border">ID</th>
             <th class="py-2 px-4 border">Név</th>
             <th class="py-2 px-4 border">Státusz</th>
-            <th class="py-2 px-4 border">Tömeg (Brix)</th>
+            <th class="py-2 px-4 border">Kezdeti Brix</th>
             <th class="py-2 px-4 border">Kezdés dátuma</th>
             <th class="py-2 px-4 border">Zárás dátuma</th>
             <th class="py-2 px-4 border">Részletek</th>
@@ -25,7 +25,7 @@
             <td class="py-2 px-4 border">{{ measurement.id }}</td>
             <td class="py-2 px-4 border">{{ measurement.name }}</td>
             <td class="py-2 px-4 border">{{ measurement.status }}</td>
-            <td class="py-2 px-4 border">{{ measurement.brix }}</td>
+            <td class="py-2 px-4 border">{{ measurement.initial_brix }}</td>
             <td class="py-2 px-4 border">{{ measurement.created_at }}</td>
             <td class="py-2 px-4 border">{{ measurement.stopped_at || 'N/A' }}</td>
             <td class="py-2 px-4 border">
