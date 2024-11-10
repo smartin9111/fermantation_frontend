@@ -10,7 +10,7 @@
 
 <script>
 import apiClient from '../api';
-import AppButton from '../components/ui/AppButton.vue'; // Helyes import
+import AppButton from '../components/ui/AppButton.vue'; 
 
 export default {
   name: 'AppTestConnect',
